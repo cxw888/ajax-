@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery.js"></script>
+    <style>
+        .box {
+            width: 50px;
+            height: 50px;
+            background-color: aqua;
+            position: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+</body>
+<script>
+    const $box = $(".box")
+    $(function () {
+        let flag = false
+        $box.mousedown(function ({ pageX, pageY }) {
+            flag = true
+            const relativeMouseX = pageX - $(this).offset().left
+            // offset().left 是this距离 文档 左边的偏移量
+            const relativeMouseY = pageY - $(this).offset().top
+            $(document).on({
+                mousemove: ({ pageX, pageY }) => {
+                    if (!flag) return;
+                    let boxLeftOffset = pageX - relativeMouseX
+                    let boxTopOffset = pageY - relativeMouseY
+                    $(".box").css({
+                        left: `${boxLeftOffset}px`,
+                        top: `${boxTopOffset}px`
+                    })
+                },
+                mouseup: () => {
+                    flag = false
+                }
+            })
+        })
+
+
+    })
+</script>
+
+</html>
